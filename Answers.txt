@@ -1,0 +1,127 @@
+1. В чём разница между контролируемыми и неконтролируемыми компонентами?
+- Элементы (форм), чьи данные хранятся в состоянии React, называются управляемыми компонентами (controlled components). 
+У управляемых или контролируемых компонентов есть атрибут их текущего состояния и метод, вызывающийся при их изменении.
+Это существенно упрощает задачу проверки вводимых значений в инпуты
+
+2. Есть ли смысл использовать метод `shouldComponentUpdate()` в `PureComponent`?
+- PureComponent выполняет в сущности то же, что и shouldComponentUpdate(), но абстрагирует разработчика от прописывания 
+этого метода вручную. PureComponent не может реализовать houldComponentUpdate() вручную, и вместо этого по дефолту
+выполняет поверхностное сравнение пропсов и стейта 
+
+3. Будет ли перерисовываться данный компонент?   
+    
+    ```jsx
+    class PureComponent extends React.PureComponent {
+      state = { 
+        item: {
+    			count:0
+    		},
+      }
+      
+      handleClick= () =>  {
+        const item = this.state.item;
+        item.count = this.state.item.count ++ ;
+        this.setState({item});
+      }
+      render() {
+        return <h2>{this.state.item.count}</h2>
+      }
+    }
+    ```
+- нет, так как у нас нет слушателя клика. Тем не менее, если изменить state вручную через инструменты разработчика,
+компонент будет перерисован
+    
+4. Что будет, если чекбоксу не передать свойство '`checked`'?
+- он по умолчанию будет "пустым" - не отмеченным
+
+5. В чём главное преимущество использования `PureComponent`?
+- увеличение производительности , поскольку рендер компонента происходит только при изменении props или state
+
+6. Что будет, если компоненту `input` передать метод `onChange`, но не передать `value`?
+- мы не будем иметь возможности управлять value
+
+ А что будет, если компоненту `input` передать `value`, но не передать метод `onChange`?
+- input будет хранить в себе лишь переданное значение value и не будет откликаться на вводимые значения
+
+7. Как сделать из обычного `select` список с несколькими выбранными значениями (мультиселект)?
+- передать в тег select атрибут multiple = { true }, а в value передавать массив выбраных значений option
+
+8. Напишите пример валидации текстового поля на React, чтобы оно было не пустым.
+
+export default function MyInput(){
+  const [ inputValue, setInputValue ] = useState('');
+
+  const handleChange = ( e ) => {
+    /.+/.test(e.target.value)&&setInputValue(e.target.value);
+  };
+
+  return(
+      <input type="text" onChange = { handleChange } value = { inputValue }/>
+  );
+}
+
+9. Приведите пример простейшей формы логина на сторонних компонентах (Formic, Material или Bootstrap на ваш выбор).
+
+import React from 'react';
+ import { Formik } from 'formik';
+ 
+ const Basic = () => (
+   <div>
+     <h1>Anywhere in your app!</h1>
+     <Formik
+       initialValues={{ email: '', password: '' }}
+       validate={values => {
+         const errors = {};
+         if (!values.email) {
+           errors.email = 'Required';
+         } else if (
+           !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)
+         ) {
+           errors.email = 'Invalid email address';
+         }
+         return errors;
+       }}
+       onSubmit={(values, { setSubmitting }) => {
+         setTimeout(() => {
+           alert(JSON.stringify(values, null, 2));
+           setSubmitting(false);
+         }, 400);
+       }}
+     >
+       {({
+         values,
+         errors,
+         touched,
+         handleChange,
+         handleBlur,
+         handleSubmit,
+         isSubmitting,
+         /* and other goodies */
+       }) => (
+         <form onSubmit={handleSubmit}>
+           <input
+             type="email"
+             name="email"
+             onChange={handleChange}
+             onBlur={handleBlur}
+             value={values.email}
+           />
+           {errors.email && touched.email && errors.email}
+           <input
+             type="password"
+             name="password"
+             onChange={handleChange}
+             onBlur={handleBlur}
+             value={values.password}
+           />
+           {errors.password && touched.password && errors.password}
+           <button type="submit" disabled={isSubmitting}>
+             Submit
+           </button>
+         </form>
+       )}
+     </Formik>
+   </div>
+ );
+ 
+ export default Basic;
