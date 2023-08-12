@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/React_spam-filter-chat-with-comments-adding/static/css/main.ad39d76c.css",
+    "main.js": "/React_spam-filter-chat-with-comments-adding/static/js/main.52db4eb1.js",
+    "index.html": "/React_spam-filter-chat-with-comments-adding/index.html",
+    "main.ad39d76c.css.map": "/React_spam-filter-chat-with-comments-adding/static/css/main.ad39d76c.css.map",
+    "main.52db4eb1.js.map": "/React_spam-filter-chat-with-comments-adding/static/js/main.52db4eb1.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.ad39d76c.css",
+    "static/js/main.52db4eb1.js"
+  ]
+}
