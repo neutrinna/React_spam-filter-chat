@@ -61,6 +61,7 @@ export default function MyInput(){
 }
 
 9. Приведите пример простейшей формы логина на сторонних компонентах (Formic, Material или Bootstrap на ваш выбор).
+- Привожу с Formik:
 
 import React from 'react';
  import { Formik } from 'formik';
